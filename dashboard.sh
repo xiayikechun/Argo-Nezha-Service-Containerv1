@@ -97,8 +97,8 @@ E[41]="Default: enable automatic online synchronization of the latest backup.sh 
 C[41]="默认开启自动在线同步最新 backup.sh 和 restore.sh 脚本的功能，如不需要该功能，请输入 [n]:"
 E[42]="The DASHBOARD_VERSION variable should be in a format like v0.00.00 or left blank. Please check."
 C[42]="变量 DASHBOARD_VERSION 必须以 v0.00.00 的格式或者留空，请检查"
-E[43]="Please enter the required backup time (default is Cron expression: 0 4 \\* \\* \\*):"
-C[43]="请输入需要的备份时间(默认为Cron表达式: 0 4 \\* \\* \\*):"
+E[43]="Please enter the required backup time (default is Cron expression: 0 4 \* \* \*, ignore the backslash):"
+C[43]="请输入需要的备份时间(默认为Cron表达式: 0 4 \* \* \* ，忽略反斜杠):"
 E[44]="Please enter the number of backups to be retained in the backup repository (default is 5):"
 C[44]="请输入备份仓库里所保留的备份数量(默认为 5):"
 
