@@ -117,28 +117,17 @@ EOF
 }
 
 EOF
-    if [[ "$DASHBOARD_VERSION" =~ 0\.[0-9]{1,2}\.[0-9]{1,2}$ ]]; then
-      if [ -n "$UUID" ] && [ "$UUID" != "0" ]; then
-        cat >> $WORK_DIR/Caddyfile << EOF
+    if [ -n "$UUID" ] && [ "$UUID" != "0" ]; then
+      cat >> $WORK_DIR/Caddyfile << EOF
 :$PRO_PORT {
-    reverse_proxy /vls* {
-        to localhost:8002
+    handle /${UUID} {
+        file_server {
+            root /tmp
+            browse
+        }
+        rewrite * /list.log
     }
 
-    reverse_proxy /vms* {
-        to localhost:8001
-    }
-
-    reverse_proxy {
-        to localhost:$WEB_PORT
-    }
-}
-EOF
-      fi
-    else
-      if [ -n "$UUID" ] && [ "$UUID" != "0" ]; then
-        cat >> $WORK_DIR/Caddyfile << EOF
-:$PRO_PORT {
     reverse_proxy /vls* {
         to localhost:8002
     }
@@ -147,8 +136,28 @@ EOF
         to localhost:8001
     }
     
+EOF
+      if [[ "$DASHBOARD_VERSION" =~ 0\.[0-9]{1,2}\.[0-9]{1,2}$ ]]; then
+        cat >> $WORK_DIR/Caddyfile << EOF
+    reverse_proxy {
+        to localhost:$WEB_PORT
+    }
+}
+EOF
+      else
+        cat >> $WORK_DIR/Caddyfile << EOF
     reverse_proxy {
         to localhost:$GRPC_PORT
+    }
+}
+EOF
+      fi
+    else
+      if [[ "$DASHBOARD_VERSION" =~ 0\.[0-9]{1,2}\.[0-9]{1,2}$ ]]; then
+        cat >> $WORK_DIR/Caddyfile << EOF
+:$PRO_PORT {
+    reverse_proxy {
+        to localhost:$WEB_PORT
     }
 }
 EOF
